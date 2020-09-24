@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-center
+  datasource:
+    #    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://112.74.99.22:3306/user_center?useUnide=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: cyh.99
+#      max-lifetime: 30000
+#      minimum-idle: 1
+#      maximum-pool-size: 20
+#      auto-commit: true
+#      idle-timeout: 10000
+#      connection-timeout: 30000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
