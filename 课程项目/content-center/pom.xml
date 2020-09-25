@@ -8,11 +8,11 @@
         <version>2.3.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.soft1851</groupId>
-    <artifactId>content-center</artifactId>
+    <groupId>com.soft1851.content</groupId>
+    <artifactId>content_center</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>content-center</name>
-    <description>Demo project for Spring Boot</description>
+    <name>content_center</name>
+    <description>content-center</description>
     <packaging>jar</packaging>
 
     <properties>
