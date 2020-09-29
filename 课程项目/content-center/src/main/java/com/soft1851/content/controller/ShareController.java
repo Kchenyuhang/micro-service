@@ -1,7 +1,7 @@
-package com.soft1851.user.controller;
+package com.soft1851.content.controller;
 
-import com.soft1851.user.domain.dto.UserDTO;
-import com.soft1851.user.service.UserService;
+import com.soft1851.content.domain.dto.ShareDTO;
+import com.soft1851.content.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @Author yhChen
  * @Description
- * @Date 2020/9/25
+ * @Date 2020/9/29
  */
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/share")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UserController {
-    private final UserService userService;
+public class ShareController {
+    private final ShareService shareService;
 
     @GetMapping(value = "/one/{id}")
-    public UserDTO getById(@PathVariable Integer id) {
-        return userService.getUserById(id);
+    public ShareDTO getOneById(@PathVariable Integer id) {
+        return shareService.findById(id);
     }
 }

@@ -3,7 +3,7 @@ spring:
     # 服务名称尽量用-,不要用_,不要用特殊字符
     name: user-center
   datasource:
-    url: jdbc:mysql://112.74.99.22:3306/user_center
+    url: jdbc:mysql://112.74.99.22:3306/user_center?useUnide=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
     hikari:
       username: root
       password: cyh.99
@@ -14,7 +14,7 @@ spring:
       discovery:
         server-addr: 112.74.99.22:8848
 server:
-  port: 8082
+  port: 0
 
 management:
   endpoints:

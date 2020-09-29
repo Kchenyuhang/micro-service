@@ -63,4 +63,9 @@ public class ContentController {
     public String getRibbon() {
         return restTemplate.getForObject("http://user-center/user/hello", String.class);
     }
+
+    @GetMapping(value = "call/ribbon1")
+    public String getUserList() {
+        return restTemplate.getForObject("http://user-center/user/list", String.class);
+    }
 }

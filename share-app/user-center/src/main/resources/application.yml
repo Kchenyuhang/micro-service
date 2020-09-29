@@ -3,7 +3,7 @@ spring:
     # 服务名称尽量用-,不要用_,不要用特殊字符
     name: user-center
   datasource:
-    url: jdbc:mysql://112.74.99.22:3306/content_center
+    url: jdbc:mysql://112.74.99.22:3306/user_center
     hikari:
       username: root
       password: cyh.99
@@ -13,8 +13,9 @@ spring:
     nacos:
       discovery:
         server-addr: 112.74.99.22:8848
-
-
+        metadata:
+          instance: 123
+#        namespace: 88d8b2d3-f5e9-48ce-a1d2-f42c6fd62997
 management:
   endpoints:
     web:
@@ -24,4 +25,4 @@ management:
     health:
       show-details: always
 server:
-  port: 8082
+  port: 8084
