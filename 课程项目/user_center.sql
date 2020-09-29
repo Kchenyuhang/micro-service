@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 24/09/2020 17:05:29
+ Date: 29/09/2020 18:35:48
 */
 
 SET NAMES utf8mb4;
@@ -46,11 +46,13 @@ CREATE TABLE `user`  (
   `update_time` datetime(0) NOT NULL COMMENT '修改时间',
   `bonus` int(0) NOT NULL DEFAULT 300 COMMENT '积分',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分享' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分享' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (1, 'king991214', '大橙子boy', '学生', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/P3.jpg', '2020-09-24 11:05:55', '2020-09-24 11:05:57', 300);
+INSERT INTO `user` VALUES (2, 'xiaoming', '小明', '学生', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/P2.jpg', '2020-09-29 15:23:05', '2020-09-29 15:23:07', 300);
+INSERT INTO `user` VALUES (3, 'zhangsan', '张三', '教师', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', '2020-09-29 15:24:00', '2020-09-29 15:24:03', 300);
 
 SET FOREIGN_KEY_CHECKS = 1;
