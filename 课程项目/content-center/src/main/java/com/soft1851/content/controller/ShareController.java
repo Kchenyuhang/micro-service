@@ -1,6 +1,9 @@
 package com.soft1851.content.controller;
 
 import com.soft1851.content.domain.dto.ShareDTO;
+import com.soft1851.content.domain.dto.UserDTO;
+import com.soft1851.content.feignclient.TestBaiduFeignClient;
+import com.soft1851.content.feignclient.TestUserCenterFeignClient;
 import com.soft1851.content.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +26,19 @@ public class ShareController {
     @GetMapping(value = "/one/{id}")
     public ShareDTO getOneById(@PathVariable Integer id) {
         return shareService.findById(id);
+    }
+
+    private final TestUserCenterFeignClient userCenterFeignClient;
+
+    @GetMapping("/test-q")
+    public UserDTO query(UserDTO userDTO) {
+        return userCenterFeignClient.query(userDTO);
+    }
+
+    private final TestBaiduFeignClient testBaiduFeignClient;
+
+    @GetMapping(value = "/baidu")
+    public String baiduIndex() {
+        return this.testBaiduFeignClient.index();
     }
 }

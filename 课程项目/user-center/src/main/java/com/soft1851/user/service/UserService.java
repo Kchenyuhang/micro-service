@@ -1,6 +1,7 @@
 package com.soft1851.user.service;
 
 import com.soft1851.user.domain.dto.UserDTO;
+import com.soft1851.user.domain.entity.User;
 
 import java.util.List;
 
@@ -25,4 +26,12 @@ public interface UserService {
      * @return
      */
     UserDTO getUserById(Integer userId);
+
+    /**
+     * 根据user查询用户
+     *
+     * @param user
+     * @return
+     */
+    User getUserByUserDto(User user);
 }

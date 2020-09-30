@@ -3,11 +3,12 @@ package com.soft1851.user.service.impl;
 import com.soft1851.user.dao.UserMapper;
 import com.soft1851.user.domain.dto.UserDTO;
 import com.soft1851.user.domain.entity.User;
-import com.soft1851.user.domain.vo.UserVO;
 import com.soft1851.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @Description
  * @Date 2020/9/25
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
@@ -40,9 +42,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Integer userId) {
-        User user1 = User.builder().id(userId).build();
-        User user = userMapper.selectOne(user1);
-        System.out.println(user);
+        log.info("我被调用了");
+        User user = this.userMapper.selectByPrimaryKey(userId);
         UserDTO userDTO = UserDTO.builder()
                 .userId(user.getId())
                 .userName(user.getWxNickname())
@@ -50,5 +51,10 @@ public class UserServiceImpl implements UserService {
                 .roles(user.getRoles())
                 .wxId(user.getWxId()).build();
         return userDTO;
+    }
+
+    @Override
+    public User getUserByUserDto(User user) {
+        return userMapper.selectOne(user);
     }
 }

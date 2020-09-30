@@ -31,7 +31,7 @@ public class ShareDTO {
 
     private Date updateTime;
 
-    private Integer isOriginal;
+    private Boolean isOriginal;
 
     private String author;
 
@@ -43,7 +43,7 @@ public class ShareDTO {
 
     private String downloadUrl;
 
-    private Integer showFlag;
+    private Boolean showFlag;
 
     private Integer buyCount;
 

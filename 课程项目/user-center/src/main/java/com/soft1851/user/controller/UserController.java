@@ -1,6 +1,7 @@
 package com.soft1851.user.controller;
 
 import com.soft1851.user.domain.dto.UserDTO;
+import com.soft1851.user.domain.entity.User;
 import com.soft1851.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class UserController {
     @GetMapping(value = "/one/{id}")
     public UserDTO getById(@PathVariable Integer id) {
         return userService.getUserById(id);
+    }
+
+    @GetMapping(value = "/test/q")
+    public User query(User user) {
+        return userService.getUserByUserDto(user);
     }
 }

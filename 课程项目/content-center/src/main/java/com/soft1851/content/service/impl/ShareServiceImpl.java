@@ -25,30 +25,12 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public ShareDTO findById(Integer id) {
-        Share share = shareMapper.selectByPrimaryKey(id);
+        Share share = this.shareMapper.selectByPrimaryKey(id);
         Integer userId = share.getId();
-//        UserDTO userDTO = restTemplate.getForObject("http://user-center/user/one/{id}", UserDTO.class, id);
         UserDTO userDTO = this.userCenterFeignClient.getById(userId);
         ShareDTO shareDTO = new ShareDTO();
         BeanUtils.copyProperties(share, shareDTO);
         shareDTO.setWxNickname(userDTO.getUserName());
-//        ShareDTO shareDTO = ShareDTO.builder()
-//                .id(share.getId())
-//                .auditStatus(share.getAuditStatus())
-//                .author(share.getAuthor())
-//                .buyCount(share.getBuyCount())
-//                .cover(share.getCover())
-//                .createTime(share.getCreateTime())
-//                .downloadUrl(share.getDownloadUrl())
-//                .isOriginal(share.getIsOriginal())
-//                .price(share.getPrice())
-//                .reason(share.getReason())
-//                .showFlag(share.getShowFlag())
-//                .summary(share.getSummary())
-//                .title(share.getTitle())
-//                .updateTime(share.getUpdateTime())
-//                .userId(share.getUserId())
-//                .wxNickname(userDTO.getUserName()).build();
         return shareDTO;
     }
 }

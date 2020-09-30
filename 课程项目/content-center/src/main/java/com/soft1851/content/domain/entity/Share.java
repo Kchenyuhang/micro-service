@@ -40,7 +40,7 @@ public class Share {
     private Date updateTime;
 
     @Column(name = "is_original")
-    private Integer isOriginal;
+    private Boolean isOriginal;
 
     @Column(name = "author")
     private String author;
@@ -58,7 +58,7 @@ public class Share {
     private String downloadUrl;
 
     @Column(name = "show_flag")
-    private Integer showFlag;
+    private Boolean showFlag;
 
     @Column(name = "buy_count")
     private Integer buyCount;
