@@ -1,14 +1,12 @@
 package com.soft1851.user.controller;
 
+import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
 import com.soft1851.user.domain.entity.User;
 import com.soft1851.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author yhChen
@@ -29,5 +27,10 @@ public class UserController {
     @GetMapping(value = "/test/q")
     public User query(User user) {
         return userService.getUserByUserDto(user);
+    }
+
+    @PostMapping(value = "/bonus/pass")
+    public User updateBonus(@RequestBody UserAddBonusMsgDTO userAddBonusMsgDTO) {
+        return this.userService.updateUserBonus(userAddBonusMsgDTO);
     }
 }

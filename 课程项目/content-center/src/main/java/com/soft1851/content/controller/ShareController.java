@@ -1,10 +1,8 @@
 package com.soft1851.content.controller;
 
 import com.soft1851.content.domain.dto.ShareDTO;
-import com.soft1851.content.domain.dto.UserDTO;
+import com.soft1851.content.domain.dto.ShareRequestDTO;
 import com.soft1851.content.domain.entity.Share;
-import com.soft1851.content.feignclient.TestBaiduFeignClient;
-import com.soft1851.content.feignclient.TestUserCenterFeignClient;
 import com.soft1851.content.service.ShareService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,19 +30,6 @@ public class ShareController {
         return shareService.findById(id);
     }
 
-    private final TestUserCenterFeignClient userCenterFeignClient;
-    @GetMapping("/test-q")
-    @ApiOperation(value = "多参数查询", notes = "多参数查询")
-    public UserDTO queryByUserDto(UserDTO userDTO) {
-        return userCenterFeignClient.query(userDTO);
-    }
-//
-//    private final TestBaiduFeignClient testBaiduFeignClient;
-//    @GetMapping(value = "/baidu")
-//    public String baiduIndex() {
-//        return this.testBaiduFeignClient.index();
-//    }
-
     @GetMapping("/query")
     @ApiOperation(value = "分享列表", notes = "分享列表")
     public List<Share> query(
@@ -57,4 +42,17 @@ public class ShareController {
         }
         return this.shareService.query(title, pageNo, pageSize, userId).getList();
     }
+
+    @PostMapping("/contribute")
+    @ApiOperation(value = "投稿接口", notes = "用户投稿")
+    public int insertShare(@RequestBody ShareRequestDTO shareRequestDTO) {
+        return shareService.insertShare(shareRequestDTO);
+    }
+
+    @PutMapping(value = "/contribute/{id}")
+    @ApiOperation(value = "编辑投稿", notes = "编辑投稿")
+    public Share updateShare(@PathVariable Integer id, @RequestBody ShareRequestDTO shareRequestDTO) {
+        return shareService.updateShare(id, shareRequestDTO);
+    }
+
 }

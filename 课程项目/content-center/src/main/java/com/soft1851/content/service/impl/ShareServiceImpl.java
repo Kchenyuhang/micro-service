@@ -4,21 +4,33 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.soft1851.content.dao.MidUserShareMapper;
 import com.soft1851.content.dao.ShareMapper;
-import com.soft1851.content.domain.dto.ShareDTO;
-import com.soft1851.content.domain.dto.UserDTO;
+import com.soft1851.content.domain.dto.*;
 import com.soft1851.content.domain.entity.MidUserShare;
 import com.soft1851.content.domain.entity.Share;
+import com.soft1851.content.domain.entity.User;
+import com.soft1851.content.domain.enums.AuditStatusEnum;
 import com.soft1851.content.feignclient.UserCenterFeignClient;
 import com.soft1851.content.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
+import org.springframework.web.client.AsyncRestTemplate;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +46,10 @@ public class ShareServiceImpl implements ShareService {
     private final UserCenterFeignClient userCenterFeignClient;
     private final MidUserShareMapper midUserShareMapper;
 
+    private final AsyncRestTemplate asyncRestTemplate;
+
+    private final RocketMQTemplate rocketMQTemplate;
+
     @Override
     public ShareDTO findById(Integer id) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
@@ -41,6 +57,7 @@ public class ShareServiceImpl implements ShareService {
         UserDTO userDTO = this.userCenterFeignClient.getById(userId);
         ShareDTO shareDTO = new ShareDTO();
         BeanUtils.copyProperties(share, shareDTO);
+//        shareDTO.setShare(share);
         shareDTO.setWxNickName(userDTO.getUserName());
         return shareDTO;
     }
@@ -86,5 +103,107 @@ public class ShareServiceImpl implements ShareService {
                     .collect(Collectors.toList());
         }
         return new PageInfo<>(shareDeal);
+    }
+
+    @Override
+    public int insertShare(ShareRequestDTO shareRequestDTO) {
+        Share share = Share.builder()
+                .author(shareRequestDTO.getAuthor())
+                .downloadUrl(shareRequestDTO.getDownloadUrl())
+                .isOriginal(shareRequestDTO.getIsOriginal())
+                .price(shareRequestDTO.getPrice())
+                .summary(shareRequestDTO.getSummary())
+                .title(shareRequestDTO.getTitle())
+                .createTime(new Date(System.currentTimeMillis()))
+                .updateTime(new Date(System.currentTimeMillis()))
+                .buyCount(0)
+                .auditStatus("NOT_YET")
+                .reason("待审核")
+                .cover(shareRequestDTO.getCover())
+                .showFlag(false)
+                .userId(shareRequestDTO.getUserId()).build();
+        return shareMapper.insert(share);
+    }
+
+    @Override
+    public Share updateShare(Integer id, ShareRequestDTO shareRequestDTO) {
+        Share share = shareMapper.selectByPrimaryKey(id);
+        share.setAuthor(shareRequestDTO.getAuthor());
+        share.setDownloadUrl(shareRequestDTO.getDownloadUrl());
+        share.setIsOriginal(shareRequestDTO.getIsOriginal());
+        share.setPrice(shareRequestDTO.getPrice());
+        share.setSummary(shareRequestDTO.getSummary());
+        share.setTitle(shareRequestDTO.getTitle());
+        share.setCover(shareRequestDTO.getCover());
+        this.shareMapper.updateByPrimaryKey(share);
+        return share;
+    }
+
+    @Override
+    public Share auditById(Integer id, ShareAuditDTO shareAuditDTO) {
+        //1,查询share是否存在，不存在或者当前的audit_status！=NOT_YET，那么抛出异常
+        Share share = this.shareMapper.selectByPrimaryKey(id);
+        System.out.println(share);
+        if (share == null) {
+            throw new IllegalArgumentException("参数非法！该分享不存在");
+        }
+        if (!Objects.equals("NOT_YET", share.getAuditStatus())) {
+            throw new IllegalArgumentException("参数非法！该分享已审核通过或审核不通过");
+        }
+        //2,审核流程，将状态改为PASS或REJECT
+        //这个app主要流程是审核，所以不需要等更新积分的结果返回，可以将增加积分改为异步
+        share.setAuditStatus(shareAuditDTO.getAuditStatusEnum().toString());
+        share.setReason(shareAuditDTO.getReason());
+        this.shareMapper.updateByPrimaryKey(share);
+        //3,如果是PASS,那么发送消息给rocketmq，让用户中心去消费，并为发布人添加积分
+        if (AuditStatusEnum.PASS.equals(shareAuditDTO.getAuditStatusEnum())) {
+            //method-1,rocketmq异步实现加积分
+            this.rocketMQTemplate.convertAndSend(
+                    "add-bonus",
+                    UserAddBonusMsgDTO.builder()
+                            .userId(share.getUserId())
+                            .bonus(50)
+                            .build()
+            );
+            log.info("使用异步rocketmq操作修改用户积分");
+            //method-2,同步调用feignClient修改用户积分
+//            this.userCenterFeignClient.updateBonus(UserAddBonusMsgDTO.builder()
+//                    .userId(share.getUserId())
+//                    .bonus(50)
+//                    .build());
+//            log.info("使用feign同步操作修改用户积分");
+            //method-3,使用asyncTemplate实现异步
+//            String url = "http://user-center/user/bonus/pass";
+//            UserAddBonusMsgDTO userAddBonusMsgDTO = UserAddBonusMsgDTO.builder().userId(share.getUserId()).bonus(50).build();
+//            MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+//            headers.add("Content-Type", "application/json;charset=UTF-8");
+//            HttpEntity<Object> httpEntity = new HttpEntity<>(userAddBonusMsgDTO, headers);
+//            ListenableFuture<ResponseEntity<User>> entity = asyncRestTemplate.postForEntity(url, httpEntity, User.class);
+//            entity.addCallback(new ListenableFutureCallback<ResponseEntity<User>>() {
+//                @Override
+//                public void onFailure(Throwable ex) {
+//                    log.error("调用失败" + ex);
+//                }
+//
+//                @Override
+//                public void onSuccess(ResponseEntity<User> result) {
+//                    log.info("调用成功");
+//                }
+//            });
+//            log.info("使用asyncTemplate异步操作修改用户积分");
+            //method-4,Async请求
+//            this.update(share);
+//            log.info("使用@Async注解实现异步请求");
+        }
+        return share;
+    }
+
+    @Async
+    public void update(Share share) {
+        UserAddBonusMsgDTO userAddBonusMsgDTO = UserAddBonusMsgDTO.builder()
+                .userId(share.getUserId())
+                .bonus(50)
+                .build();
+        this.userCenterFeignClient.updateBonus(userAddBonusMsgDTO);
     }
 }

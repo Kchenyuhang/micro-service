@@ -1,7 +1,10 @@
 package com.soft1851.user.service.impl;
 
+import com.soft1851.user.dao.BonusEventLogMapper;
 import com.soft1851.user.dao.UserMapper;
+import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
+import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
 import com.soft1851.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
+    private final BonusEventLogMapper bonusEventLogMapper;
 
     @Override
     public List<UserDTO> getUserList() {
@@ -56,5 +61,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUserDto(User user) {
         return userMapper.selectOne(user);
+    }
+
+    @Override
+    public User updateUserBonus(UserAddBonusMsgDTO userAddBonusMsgDTO) {
+        User user = this.userMapper.selectByPrimaryKey(userAddBonusMsgDTO.getUserId());
+        user.setBonus(user.getBonus() + userAddBonusMsgDTO.getBonus());
+        this.userMapper.updateByPrimaryKey(user);
+        this.bonusEventLogMapper.insert(BonusEventLog.builder()
+                .userId(userAddBonusMsgDTO.getUserId())
+                .value(50)
+                .event("CONTRIBUTE")
+                .createTime(new Date(System.currentTimeMillis()))
+                .description("投稿加积分")
+                .build()
+        );
+        return user;
     }
 }

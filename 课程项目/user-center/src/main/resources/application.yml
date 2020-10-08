@@ -12,7 +12,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 112.74.99.22:8848
+        server-addr: 47.100.1.18:8848
 server:
   port: 8085
 
@@ -24,3 +24,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+rocketmq:
+  name-server: 112.74.99.22:9876
+  producer:
+    group: test-group

@@ -1,5 +1,6 @@
 package com.soft1851.user.service;
 
+import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
 import com.soft1851.user.domain.entity.User;
 
@@ -34,4 +35,11 @@ public interface UserService {
      * @return
      */
     User getUserByUserDto(User user);
+
+    /**
+     * 审核投稿通过
+     *
+     * @param userAddBonusMsgDTO
+     */
+    User updateUserBonus(UserAddBonusMsgDTO userAddBonusMsgDTO);
 }
