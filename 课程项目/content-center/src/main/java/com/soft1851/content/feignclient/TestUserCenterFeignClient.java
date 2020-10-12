@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "user-center")
 public interface TestUserCenterFeignClient {
 
-    @GetMapping("/user/test/q")
+    @GetMapping("/users/test/q")
     UserDTO query(@SpringQueryMap UserDTO userDTO);
 }

@@ -22,7 +22,7 @@ public interface UserCenterFeignClient {
      * @param id
      * @return
      */
-    @GetMapping("/user/one/{id}")
+    @GetMapping("/users/{id}")
     UserDTO getById(@PathVariable Integer id);
 
     /**
@@ -30,6 +30,6 @@ public interface UserCenterFeignClient {
      *
      * @param userAddBonusMsgDTO
      */
-    @PostMapping(value = "/user/bonus/pass")
+    @PostMapping(value = "/users/bonus/pass")
     User updateBonus(@RequestBody UserAddBonusMsgDTO userAddBonusMsgDTO);
 }

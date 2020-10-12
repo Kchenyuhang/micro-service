@@ -18,13 +18,13 @@ import java.util.List;
  * @Date 2020/9/29
  */
 @RestController
-@RequestMapping(value = "/share")
+@RequestMapping(value = "/shares")
 @Api(tags = "分享接口", value = "提供分享相关的Rest API")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ShareController {
     private final ShareService shareService;
 
-    @GetMapping(value = "/one/{id}")
+    @GetMapping(value = "/{id}")
     @ApiOperation(value = "查询指定id的分享详情", notes = "查询指定id的分享详情")
     public ShareDTO getOneById(@PathVariable Integer id) {
         return shareService.findById(id);

@@ -2,6 +2,7 @@ package com.soft1851.user.service.impl;
 
 import com.soft1851.user.dao.BonusEventLogMapper;
 import com.soft1851.user.dao.UserMapper;
+import com.soft1851.user.domain.dto.LoginDTO;
 import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
 import com.soft1851.user.domain.entity.BonusEventLog;
@@ -77,5 +78,29 @@ public class UserServiceImpl implements UserService {
                 .build()
         );
         return user;
+    }
+
+    @Override
+    public User login(LoginDTO loginDTO) {
+        //先根据wxId查找用户
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("wxId", loginDTO.getWxId());
+        List<User> users = this.userMapper.selectByExample(example);
+        //没找到，是新用户，直接注册
+        if (users.size() == 0) {
+            User saveUser = User.builder()
+                    .wxId(loginDTO.getWxId())
+                    .avatarUrl(loginDTO.getAvatarUrl())
+                    .wxNickname(loginDTO.getWxNickname())
+                    .roles("user")
+                    .bonus(100)
+                    .createTime(new Date())
+                    .updateTime(new Date())
+                    .build();
+            this.userMapper.insertSelective(saveUser);
+            return saveUser;
+        }
+        return users.get(0);
     }
 }
