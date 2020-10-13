@@ -51,5 +51,5 @@ public interface UserService {
      * @param loginDTO
      * @return
      */
-    User login(LoginDTO loginDTO);
+    User login(LoginDTO loginDTO, String openId);
 }

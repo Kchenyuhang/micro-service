@@ -8,15 +8,13 @@ import lombok.NoArgsConstructor;
 /**
  * @Author yhChen
  * @Description
- * @Date 2020/10/12
+ * @Date 2020/10/13
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
-    private String openId;
-    private String loginCode;
-    private String wxNickname;
-    private String avatarUrl;
+public class JwtTokenRespDTO {
+    private String token;
+    private Long expirationTime;
 }

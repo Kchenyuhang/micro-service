@@ -29,3 +29,8 @@ rocketmq:
   name-server: 112.74.99.22:9876
   producer:
     group: test-group
+
+jwt:
+  secret: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  # 有效期，单位秒，默认2周
+  exprice-time-in-second: 1209600

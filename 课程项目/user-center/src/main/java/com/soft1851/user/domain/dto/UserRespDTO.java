@@ -1,6 +1,5 @@
 package com.soft1851.user.domain.dto;
 
-import com.soft1851.user.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,14 +7,16 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author yhChen
- * @Description 登录返回结果
- * @Date 2020/10/12
+ * @Description
+ * @Date 2020/10/13
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class LoginRestDTO {
-    private User user;
-    private String token;
+public class UserRespDTO {
+    private Integer id;
+    private String avatarUrl;
+    private Integer bonus;
+    private String wxNickname;
 }

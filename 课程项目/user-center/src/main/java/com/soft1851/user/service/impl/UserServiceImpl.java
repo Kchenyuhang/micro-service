@@ -81,16 +81,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(LoginDTO loginDTO) {
-        //先根据wxId查找用户
+    public User login(LoginDTO loginDTO, String openId) {
+        //先根据openId查找用户
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("wxId", loginDTO.getWxId());
+        criteria.andEqualTo("wxId", openId);
         List<User> users = this.userMapper.selectByExample(example);
         //没找到，是新用户，直接注册
         if (users.size() == 0) {
             User saveUser = User.builder()
-                    .wxId(loginDTO.getWxId())
+                    .wxId(openId)
                     .avatarUrl(loginDTO.getAvatarUrl())
                     .wxNickname(loginDTO.getWxNickname())
                     .roles("user")

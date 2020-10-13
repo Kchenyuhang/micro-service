@@ -14,9 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
-    private String openId;
-    private String loginCode;
+public class WxLoginDTO {
+    private String code;
     private String wxNickname;
     private String avatarUrl;
 }
