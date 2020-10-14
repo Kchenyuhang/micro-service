@@ -3,7 +3,9 @@ package com.soft1851.user.service;
 import com.soft1851.user.domain.dto.LoginDTO;
 import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
+import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
+import com.soft1851.user.domain.vo.UserVO;
 
 import java.util.List;
 
@@ -49,7 +51,16 @@ public interface UserService {
      * 用户登录
      *
      * @param loginDTO
+     * @param openId
      * @return
      */
     User login(LoginDTO loginDTO, String openId);
+
+    /**
+     * 查询登录用户的积分明细
+     *
+     * @param userId
+     * @return
+     */
+    List<BonusEventLog> selectUserBonusLog(Integer userId);
 }

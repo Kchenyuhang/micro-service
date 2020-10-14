@@ -4,6 +4,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.soft1851.user.config.WxConfiguration;
 import com.soft1851.user.domain.dto.*;
+import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
 import com.soft1851.user.service.UserService;
 import com.soft1851.user.util.JwtOperator;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,12 +34,12 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     public UserDTO getById(@PathVariable Integer id) {
-        return userService.getUserById(id);
+        return this.userService.getUserById(id);
     }
 
-    @GetMapping(value = "/test/q")
-    public User query(User user) {
-        return userService.getUserByUserDto(user);
+    @GetMapping(value = "/me")
+    public User query(@RequestBody User user) {
+        return this.userService.getUserByUserDto(user);
     }
 
     @PostMapping(value = "/bonus/pass")
@@ -86,6 +88,10 @@ public class UserController {
                 .build();
     }
 
+    @PostMapping(value = "/bonus-logs")
+    public List<BonusEventLog> getUserBonusLog(@RequestBody UserRespDTO userRespDTO) {
+        return this.userService.selectUserBonusLog(userRespDTO.getId());
+    }
 //    @PostMapping(value = "/wxLogin")
 //    public LoginRespDTO codeAuth(@RequestBody WxLoginDTO wxLoginDTO) throws WxErrorException {
 //        WxMaJscode2SessionResult result = this.wxMaService.getUserService().getSessionInfo(wxLoginDTO.getCode());

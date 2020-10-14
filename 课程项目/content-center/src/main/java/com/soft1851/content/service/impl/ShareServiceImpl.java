@@ -53,7 +53,7 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public ShareDTO findById(Integer id) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
-        Integer userId = share.getId();
+        Integer userId = share.getUserId();
         UserDTO userDTO = this.userCenterFeignClient.getById(userId);
         ShareDTO shareDTO = new ShareDTO();
         BeanUtils.copyProperties(share, shareDTO);

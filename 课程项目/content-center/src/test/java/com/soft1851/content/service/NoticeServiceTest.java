@@ -19,7 +19,7 @@ class NoticeServiceTest {
 
     @Test
     void getLatest() {
-        Notice latest = noticeService.getLatest();
-        System.out.println(latest);
+//        Notice latest = noticeService.getLatest();
+//        System.out.println(latest);
     }
 }

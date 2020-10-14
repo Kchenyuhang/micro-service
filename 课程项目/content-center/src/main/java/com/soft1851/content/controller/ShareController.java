@@ -33,7 +33,7 @@ public class ShareController {
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "查询指定id的分享详情", notes = "查询指定id的分享详情")
     public ShareDTO getOneById(@PathVariable Integer id) {
-        return shareService.findById(id);
+        return this.shareService.findById(id);
     }
 
     @GetMapping("/query")
@@ -42,12 +42,15 @@ public class ShareController {
             @RequestParam(required = false) String title,
             @RequestParam(required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-            @RequestHeader(value = "X-Token", required = false) String token) throws Exception {
+            @RequestHeader(value = "X-Token", required = false) String token) {
         if (pageSize > 100) {
             pageSize = 100;
         }
+//        System.out.println(token);
         Integer userId = null;
-        if (StringUtils.isNotBlank(token)) {
+
+        if (!"no-token".equals(token)) {
+            System.out.println(token);
             Claims claims = this.jwtOperator.getClaimsFromToken(token);
             log.info(claims.toString());
             userId = (Integer) claims.get("id");

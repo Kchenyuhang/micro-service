@@ -7,6 +7,7 @@ import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
 import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
+import com.soft1851.user.domain.vo.UserVO;
 import com.soft1851.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Integer userId) {
-        log.info("我被调用了");
         User user = this.userMapper.selectByPrimaryKey(userId);
         UserDTO userDTO = UserDTO.builder()
                 .userId(user.getId())
@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserBonus(UserAddBonusMsgDTO userAddBonusMsgDTO) {
         User user = this.userMapper.selectByPrimaryKey(userAddBonusMsgDTO.getUserId());
         user.setBonus(user.getBonus() + userAddBonusMsgDTO.getBonus());
+        user.setUpdateTime(new Date());
         this.userMapper.updateByPrimaryKey(user);
         this.bonusEventLogMapper.insert(BonusEventLog.builder()
                 .userId(userAddBonusMsgDTO.getUserId())
@@ -102,5 +103,13 @@ public class UserServiceImpl implements UserService {
             return saveUser;
         }
         return users.get(0);
+    }
+
+    @Override
+    public List<BonusEventLog> selectUserBonusLog(Integer userId) {
+        Example example = new Example(BonusEventLog.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId", userId);
+        return this.bonusEventLogMapper.selectByExample(example);
     }
 }

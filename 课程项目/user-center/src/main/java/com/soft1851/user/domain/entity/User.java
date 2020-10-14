@@ -1,5 +1,6 @@
 package com.soft1851.user.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,9 +41,11 @@ public class User {
     private String avatarUrl;
 
     @Column(name = "create_time")
+    @JsonFormat(locale = "zh",timezone = "GMT+8",pattern = "yyyy-MM-dd")
     private Date createTime;
 
     @Column(name = "update_time")
+    @JsonFormat(locale = "zh",timezone = "GMT+8",pattern = "yyyy-MM-dd")
     private Date updateTime;
 
     @Column(name = "bonus")
