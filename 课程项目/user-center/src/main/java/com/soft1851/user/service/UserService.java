@@ -1,6 +1,7 @@
 package com.soft1851.user.service;
 
 import com.soft1851.user.domain.dto.LoginDTO;
+import com.soft1851.user.domain.dto.ResponseDTO;
 import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
 import com.soft1851.user.domain.entity.BonusEventLog;
@@ -29,15 +30,7 @@ public interface UserService {
      * @param userId
      * @return
      */
-    UserDTO getUserById(Integer userId);
-
-    /**
-     * 根据user查询用户
-     *
-     * @param user
-     * @return
-     */
-    User getUserByUserDto(User user);
+    ResponseDTO getUserById(Integer userId);
 
     /**
      * 审核投稿通过
@@ -45,7 +38,7 @@ public interface UserService {
      * @param userAddBonusMsgDTO
      * @return
      */
-    User updateUserBonus(UserAddBonusMsgDTO userAddBonusMsgDTO);
+    void addBonus(UserAddBonusMsgDTO userAddBonusMsgDTO);
 
     /**
      * 用户登录
@@ -57,10 +50,9 @@ public interface UserService {
     User login(LoginDTO loginDTO, String openId);
 
     /**
-     * 查询登录用户的积分明细
-     *
-     * @param userId
+     * 查询用户日志
+     * @param userDTO
      * @return
      */
-    List<BonusEventLog> selectUserBonusLog(Integer userId);
+    ResponseDTO getLog(UserDTO userDTO);
 }

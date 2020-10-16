@@ -3,6 +3,7 @@ package com.soft1851.user.service.impl;
 import com.soft1851.user.dao.BonusEventLogMapper;
 import com.soft1851.user.dao.UserMapper;
 import com.soft1851.user.domain.dto.LoginDTO;
+import com.soft1851.user.domain.dto.ResponseDTO;
 import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.dto.UserDTO;
 import com.soft1851.user.domain.entity.BonusEventLog;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -37,9 +39,9 @@ public class UserServiceImpl implements UserService {
         List<UserDTO> userDTOList = new ArrayList<>();
         userList.forEach(user -> {
             UserDTO userDTO = new UserDTO();
-            userDTO.setUserId(user.getId());
+            userDTO.setId(user.getId());
             userDTO.setWxId(user.getWxId());
-            userDTO.setUserName(user.getWxNickname());
+            userDTO.setWxNickname(user.getWxNickname());
             userDTO.setRoles(user.getRoles());
             userDTO.setAvatarUrl(user.getAvatarUrl());
             userDTOList.add(userDTO);
@@ -48,37 +50,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Integer userId) {
+    public ResponseDTO getUserById(Integer id) {
+        User user = this.userMapper.selectByPrimaryKey(id);
+        return new ResponseDTO(true,"200","查询成功",user, 1L);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void addBonus(UserAddBonusMsgDTO userAddBonusMsgDTO) {
+        System.out.println(userAddBonusMsgDTO);
+        // 1. 为用户加积分
+        Integer userId = userAddBonusMsgDTO.getUserId();
+        Integer bonus = userAddBonusMsgDTO.getBonus();
         User user = this.userMapper.selectByPrimaryKey(userId);
-        UserDTO userDTO = UserDTO.builder()
-                .userId(user.getId())
-                .userName(user.getWxNickname())
-                .avatarUrl(user.getAvatarUrl())
-                .roles(user.getRoles())
-                .wxId(user.getWxId()).build();
-        return userDTO;
-    }
 
-    @Override
-    public User getUserByUserDto(User user) {
-        return userMapper.selectOne(user);
-    }
+        user.setBonus(user.getBonus() + bonus);
+        this.userMapper.updateByPrimaryKeySelective(user);
 
-    @Override
-    public User updateUserBonus(UserAddBonusMsgDTO userAddBonusMsgDTO) {
-        User user = this.userMapper.selectByPrimaryKey(userAddBonusMsgDTO.getUserId());
-        user.setBonus(user.getBonus() + userAddBonusMsgDTO.getBonus());
-        user.setUpdateTime(new Date());
-        this.userMapper.updateByPrimaryKey(user);
-        this.bonusEventLogMapper.insert(BonusEventLog.builder()
-                .userId(userAddBonusMsgDTO.getUserId())
-                .value(50)
-                .event("CONTRIBUTE")
-                .createTime(new Date(System.currentTimeMillis()))
-                .description("投稿加积分")
-                .build()
+        // 2. 记录日志到bonus_event_log表里面
+        this.bonusEventLogMapper.insert(
+                BonusEventLog.builder()
+                        .userId(userId)
+                        .value(bonus)
+                        .event(userAddBonusMsgDTO.getEvent())
+                        .createTime(new Date())
+                        .description(userAddBonusMsgDTO.getDescription())
+                        .build()
         );
-        return user;
+        log.info("积分添加完毕...");
     }
 
     @Override
@@ -106,10 +105,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<BonusEventLog> selectUserBonusLog(Integer userId) {
+    public ResponseDTO getLog(UserDTO userDTO) {
         Example example = new Example(BonusEventLog.class);
+        example.setOrderByClause("create_time DESC");
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("userId", userId);
-        return this.bonusEventLogMapper.selectByExample(example);
+        criteria.andEqualTo("userId",userDTO.getId());
+        List<BonusEventLog> bonusEventLogList = this.bonusEventLogMapper.selectByExample(example);
+        return new ResponseDTO(true,"200","查询成功",bonusEventLogList, 1L);
     }
+
 }

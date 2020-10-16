@@ -3,6 +3,7 @@ package com.soft1851.user.controller;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.soft1851.user.config.WxConfiguration;
+import com.soft1851.user.dao.UserMapper;
 import com.soft1851.user.domain.dto.*;
 import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
@@ -28,24 +29,20 @@ import java.util.Map;
 @RequestMapping(value = "/users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
+    private final UserMapper userMapper;
     private final UserService userService;
     private final WxMaService wxMaService;
     private final JwtOperator jwtOperator;
 
     @GetMapping(value = "/{id}")
-    public UserDTO getById(@PathVariable Integer id) {
+    public ResponseDTO getById(@PathVariable Integer id) {
         return this.userService.getUserById(id);
     }
 
-    @GetMapping(value = "/me")
-    public User query(@RequestBody User user) {
-        return this.userService.getUserByUserDto(user);
-    }
-
-    @PostMapping(value = "/bonus/pass")
-    public User updateBonus(@RequestBody UserAddBonusMsgDTO userAddBonusMsgDTO) {
-        return this.userService.updateUserBonus(userAddBonusMsgDTO);
-    }
+//    @GetMapping(value = "/me")
+//    public User query(@RequestBody User user) {
+//        return this.userService.getUserByUserDto(user);
+//    }
 
     @PostMapping(value = "/login")
     public LoginRespDTO getToken(@RequestBody LoginDTO loginDTO) throws WxErrorException {
@@ -89,23 +86,22 @@ public class UserController {
     }
 
     @PostMapping(value = "/bonus-logs")
-    public List<BonusEventLog> getUserBonusLog(@RequestBody UserRespDTO userRespDTO) {
-        return this.userService.selectUserBonusLog(userRespDTO.getId());
+    public ResponseDTO getUserBonusLog(@RequestBody UserDTO userDTO) {
+        return this.userService.getLog(userDTO);
     }
-//    @PostMapping(value = "/wxLogin")
-//    public LoginRespDTO codeAuth(@RequestBody WxLoginDTO wxLoginDTO) throws WxErrorException {
-//        WxMaJscode2SessionResult result = this.wxMaService.getUserService().getSessionInfo(wxLoginDTO.getCode());
-//        System.out.println(result);
-//        String openId = result.getOpenid();
-//        LoginDTO loginDTO = LoginDTO.builder()
-//                .openId(openId)
-//                .wxNickname(wxLoginDTO.getWxNickname())
-//                .avatarUrl(wxLoginDTO.getAvatarUrl())
-//                .build();
-//        User user = userService.login(loginDTO);
-//        return LoginRestDTO.builder()
-//                .user(user)
-//                .token("aaaabbbbcccc")
-//                .build();
-//    }
+
+    @PutMapping(value = "/add-bonus")
+    public User addBonus(@RequestBody UserAddBonusDTO userAddBonusDTO) {
+        log.info("增减积分接口被请求了...");
+        Integer userId = userAddBonusDTO.getUserId();
+        userService.addBonus(
+                UserAddBonusMsgDTO.builder()
+                        .userId(userId)
+                        .bonus(userAddBonusDTO.getBonus())
+                        .description("兑换分享...")
+                        .event("BUY")
+                        .build()
+        );
+        return this.userMapper.selectByPrimaryKey(userId);
+    }
 }

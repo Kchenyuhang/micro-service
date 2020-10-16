@@ -1,5 +1,7 @@
 package com.soft1851.content.controller;
 
+import com.soft1851.content.auth.CheckLogin;
+import com.soft1851.content.domain.dto.ExchangeDTO;
 import com.soft1851.content.domain.dto.ShareDTO;
 import com.soft1851.content.domain.dto.ShareRequestDTO;
 import com.soft1851.content.domain.entity.Share;
@@ -46,7 +48,7 @@ public class ShareController {
         if (pageSize > 100) {
             pageSize = 100;
         }
-//        System.out.println(token);
+        System.out.println(token);
         Integer userId = null;
 
         if (!"no-token".equals(token)) {
@@ -61,15 +63,24 @@ public class ShareController {
     }
 
     @PostMapping("/contribute")
+    @CheckLogin
     @ApiOperation(value = "投稿接口", notes = "用户投稿")
     public int insertShare(@RequestBody ShareRequestDTO shareRequestDTO) {
         return shareService.insertShare(shareRequestDTO);
     }
 
     @PutMapping(value = "/contribute/{id}")
+    @CheckLogin
     @ApiOperation(value = "编辑投稿", notes = "编辑投稿")
     public Share updateShare(@PathVariable Integer id, @RequestBody ShareRequestDTO shareRequestDTO) {
         return shareService.updateShare(id, shareRequestDTO);
     }
 
+    @PostMapping("/exchange")
+    @CheckLogin
+    @ApiOperation(value = "积分兑换", notes = "积分兑换")
+    public Share exchange(@RequestBody ExchangeDTO exchangeDTO) {
+        System.out.println(exchangeDTO + ">>>>>>>>>>>>");
+        return this.shareService.exchange(exchangeDTO);
+    }
 }

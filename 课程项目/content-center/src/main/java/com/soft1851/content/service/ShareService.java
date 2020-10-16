@@ -1,6 +1,7 @@
 package com.soft1851.content.service;
 
 import com.github.pagehelper.PageInfo;
+import com.soft1851.content.domain.dto.ExchangeDTO;
 import com.soft1851.content.domain.dto.ShareAuditDTO;
 import com.soft1851.content.domain.dto.ShareDTO;
 import com.soft1851.content.domain.dto.ShareRequestDTO;
@@ -43,6 +44,7 @@ public interface ShareService {
     /**
      * 编辑
      *
+     * @param id
      * @param shareRequestDTO
      * @return
      */
@@ -57,5 +59,11 @@ public interface ShareService {
      */
     Share auditById(Integer id, ShareAuditDTO shareAuditDTO);
 
-
+    /**
+     * 积分兑换资源
+     *
+     * @param exchangeDTO
+     * @return Share
+     */
+    Share exchange(ExchangeDTO exchangeDTO);
 }
