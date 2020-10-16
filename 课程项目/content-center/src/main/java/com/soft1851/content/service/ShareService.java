@@ -66,4 +66,14 @@ public interface ShareService {
      * @return Share
      */
     Share exchange(ExchangeDTO exchangeDTO);
+
+    /**
+     * 我的投稿
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    PageInfo<Share> findMyShare(Integer pageNo, Integer pageSize, Integer userId);
 }

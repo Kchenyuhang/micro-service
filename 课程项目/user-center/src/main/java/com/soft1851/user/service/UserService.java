@@ -1,9 +1,6 @@
 package com.soft1851.user.service;
 
-import com.soft1851.user.domain.dto.LoginDTO;
-import com.soft1851.user.domain.dto.ResponseDTO;
-import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
-import com.soft1851.user.domain.dto.UserDTO;
+import com.soft1851.user.domain.dto.*;
 import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
 import com.soft1851.user.domain.vo.UserVO;
@@ -51,8 +48,25 @@ public interface UserService {
 
     /**
      * 查询用户日志
+     *
      * @param userDTO
      * @return
      */
     ResponseDTO getLog(UserDTO userDTO);
+
+    /**
+     * 用户签到
+     *
+     * @param signInDTO
+     * @return
+     */
+    ResponseDTO signIn(UserSignInDTO signInDTO);
+
+    /**
+     * 判断用户是否签到
+     *
+     * @param signInDTO
+     * @return
+     */
+    ResponseDTO checkIsSign(UserSignInDTO signInDTO);
 }

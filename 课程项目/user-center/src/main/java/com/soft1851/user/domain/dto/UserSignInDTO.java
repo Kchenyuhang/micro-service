@@ -8,14 +8,12 @@ import lombok.NoArgsConstructor;
 /**
  * @Author yhChen
  * @Description
- * @Date 2020/10/13
+ * @Date 2020/10/16
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRespDTO {
-    private UserRespDTO user;
-    private JwtTokenRespDTO token;
-    private Integer isUserSignIn;
+public class UserSignInDTO {
+    private Integer userId;
 }

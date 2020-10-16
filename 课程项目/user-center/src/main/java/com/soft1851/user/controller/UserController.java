@@ -46,6 +46,7 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public LoginRespDTO getToken(@RequestBody LoginDTO loginDTO) throws WxErrorException {
+
         String openId;
         //微信小程序登录，需要根据code请求openId
         if (loginDTO.getLoginCode() != null) {
@@ -60,6 +61,14 @@ public class UserController {
         }
         // 看用户是否注册，如果没有注册就（插入），如果已经注册就返回其信息
         User user = userService.login(loginDTO, openId);
+        System.out.println(user);
+        ResponseDTO responseDTO = this.userService.checkIsSign(UserSignInDTO.builder().userId(user.getId()).build());
+        int isUserSinIn = 0;
+        if ("200".equals(responseDTO.getCode())) {
+            isUserSinIn = 0;
+        } else {
+            isUserSinIn = 1;
+        }
         // 颁发token
         Map<String, Object> userInfo = new HashMap<>(3);
         userInfo.put("id", user.getId());
@@ -82,6 +91,7 @@ public class UserController {
                         .token(token)
                         .expirationTime(jwtOperator.getExpirationTime().getTime())
                         .build())
+                .isUserSignIn(isUserSinIn)
                 .build();
     }
 
@@ -103,5 +113,10 @@ public class UserController {
                         .build()
         );
         return this.userMapper.selectByPrimaryKey(userId);
+    }
+
+    @PutMapping(value = "/sign")
+    public ResponseDTO userSign(@RequestBody UserSignInDTO userSignInDTO) {
+        return this.userService.signIn(userSignInDTO);
     }
 }

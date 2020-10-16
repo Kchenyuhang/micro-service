@@ -122,7 +122,7 @@ public class ShareServiceImpl implements ShareService {
                 .buyCount(0)
                 .auditStatus("NOT_YET")
                 .reason("待审核")
-                .cover(shareRequestDTO.getCover())
+                .cover("https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg")
                 .showFlag(false)
                 .userId(shareRequestDTO.getUserId()).build();
         return shareMapper.insert(share);
@@ -137,7 +137,6 @@ public class ShareServiceImpl implements ShareService {
         share.setPrice(shareRequestDTO.getPrice());
         share.setSummary(shareRequestDTO.getSummary());
         share.setTitle(shareRequestDTO.getTitle());
-        share.setCover(shareRequestDTO.getCover());
         this.shareMapper.updateByPrimaryKey(share);
         return share;
     }
@@ -247,6 +246,11 @@ public class ShareServiceImpl implements ShareService {
                         .build()
         );
         return share;
+    }
+
+    @Override
+    public PageInfo<Share> findMyShare(Integer pageNo, Integer pageSize, Integer userId) {
+        return null;
     }
 
 

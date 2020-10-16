@@ -33,5 +33,4 @@ public class ShareRequestDTO {
 
     private String downloadUrl;
 
-    private String cover;
 }
