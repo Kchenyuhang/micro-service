@@ -75,5 +75,15 @@ public interface ShareService {
      * @param userId
      * @return
      */
-    PageInfo<Share> findMyShare(Integer pageNo, Integer pageSize, Integer userId);
+    PageInfo<Share> findMyContribute(Integer pageNo, Integer pageSize, Integer userId);
+
+    /**
+     * 我的兑换
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    PageInfo<Share> findMyExchange(Integer pageNo, Integer pageSize, Integer userId);
 }

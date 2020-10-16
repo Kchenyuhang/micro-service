@@ -83,4 +83,23 @@ public class ShareController {
         System.out.println(exchangeDTO + ">>>>>>>>>>>>");
         return this.shareService.exchange(exchangeDTO);
     }
+
+    @GetMapping(value = "/my/contributions")
+//    @CheckLogin
+    @ApiOperation(value = "我的投稿", notes = "我的投稿")
+    public List<Share> findMyContribution(
+            @RequestParam Integer userId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNo,
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        return this.shareService.findMyContribute(pageNo, pageSize, userId).getList();
+    }
+
+    @GetMapping(value = "/my")
+    @ApiOperation(value = "我的兑换", notes = "我的兑换")
+    public List<Share> findMyExchange(
+            @RequestParam Integer userId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNo,
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        return this.shareService.findMyExchange(pageNo, pageSize, userId).getList();
+    }
 }
