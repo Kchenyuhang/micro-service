@@ -34,6 +34,10 @@ spring:
           uri: lb://content-center
           predicates:
             - Path=/notices/**
+        - id: Path_admin_share
+          uri: lb://content-center
+          predicates:
+            - Path=/admin/shares/**
 
 management:
   endpoints:

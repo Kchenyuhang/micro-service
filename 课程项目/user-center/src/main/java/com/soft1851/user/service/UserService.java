@@ -1,6 +1,7 @@
 package com.soft1851.user.service;
 
 import com.soft1851.user.domain.dto.*;
+import com.github.pagehelper.PageInfo;
 import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
 import com.soft1851.user.domain.vo.UserVO;
@@ -49,10 +50,12 @@ public interface UserService {
     /**
      * 查询用户日志
      *
-     * @param userDTO
+     * @param pageNo
+     * @param pageSize
+     * @param userId
      * @return
      */
-    ResponseDTO getLog(UserDTO userDTO);
+    PageInfo<BonusEventLog> getLog(Integer pageNo, Integer pageSize, Integer userId);
 
     /**
      * 用户签到

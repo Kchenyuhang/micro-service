@@ -86,4 +86,22 @@ public interface ShareService {
      * @return
      */
     PageInfo<Share> findMyExchange(Integer pageNo, Integer pageSize, Integer userId);
+
+    /**
+     * 查询待审核的投稿
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    PageInfo<Share> findShareNotYet(Integer pageNo, Integer pageSize);
+
+    /**
+     * 查询已审核的投稿
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    PageInfo<Share> findShareAudit(Integer pageNo, Integer pageSize);
 }

@@ -1,11 +1,12 @@
 package com.soft1851.user.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.soft1851.user.dao.BonusEventLogMapper;
 import com.soft1851.user.dao.UserMapper;
 import com.soft1851.user.domain.dto.*;
 import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
-import com.soft1851.user.domain.vo.UserVO;
 import com.soft1851.user.service.UserService;
 import com.soft1851.user.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -103,13 +104,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseDTO getLog(UserDTO userDTO) {
+    public PageInfo<BonusEventLog> getLog(Integer pageNo, Integer pageSize, Integer userId) {
+        PageHelper.startPage(pageNo, pageSize);
         Example example = new Example(BonusEventLog.class);
         example.setOrderByClause("create_time DESC");
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("userId", userDTO.getId());
+        criteria.andEqualTo("userId", userId);
         List<BonusEventLog> bonusEventLogList = this.bonusEventLogMapper.selectByExample(example);
-        return new ResponseDTO(true, "200", "查询成功", bonusEventLogList, 1L);
+        return new PageInfo<>(bonusEventLogList);
     }
 
     @Override

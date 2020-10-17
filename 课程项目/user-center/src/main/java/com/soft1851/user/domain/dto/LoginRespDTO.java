@@ -17,5 +17,6 @@ import lombok.NoArgsConstructor;
 public class LoginRespDTO {
     private UserRespDTO user;
     private JwtTokenRespDTO token;
+    private String roles;
     private Integer isUserSignIn;
 }

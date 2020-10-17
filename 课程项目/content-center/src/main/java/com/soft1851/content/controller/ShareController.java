@@ -43,7 +43,7 @@ public class ShareController {
     public List<Share> query(
             @RequestParam(required = false) String title,
             @RequestParam(required = false, defaultValue = "1") Integer pageNo,
-            @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize,
             @RequestHeader(value = "X-Token", required = false) String token) {
         if (pageSize > 100) {
             pageSize = 100;
@@ -90,7 +90,8 @@ public class ShareController {
     public List<Share> findMyContribution(
             @RequestParam Integer userId,
             @RequestParam(required = false, defaultValue = "1") Integer pageNo,
-            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+//        System.out.println(this.shareService.findMyContribute(pageNo, pageSize, userId).getList());
         return this.shareService.findMyContribute(pageNo, pageSize, userId).getList();
     }
 
@@ -99,7 +100,7 @@ public class ShareController {
     public List<Share> findMyExchange(
             @RequestParam Integer userId,
             @RequestParam(required = false, defaultValue = "1") Integer pageNo,
-            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
         return this.shareService.findMyExchange(pageNo, pageSize, userId).getList();
     }
 }

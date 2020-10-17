@@ -73,6 +73,7 @@ public class ShareServiceImpl implements ShareService {
         //构造查询实例
         Example example = new Example(Share.class);
         Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("showFlag", 1);
         //如标题关键字不空，则加上模糊查询条件，否则结果即所有数据
         if (StringUtil.isNotEmpty(title)) {
             criteria.andLike("title", "%" + title + "%");
@@ -273,6 +274,26 @@ public class ShareServiceImpl implements ShareService {
             Share share = this.shareMapper.selectByPrimaryKey(midUserShare.getShareId());
             shareList.add(share);
         });
+        return new PageInfo<>(shareList);
+    }
+
+    @Override
+    public PageInfo<Share> findShareNotYet(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        Example example = new Example(Share.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("auditStatus", "NOT_YET");
+        List<Share> shareList = this.shareMapper.selectByExample(example);
+        return new PageInfo<>(shareList);
+    }
+
+    @Override
+    public PageInfo<Share> findShareAudit(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        Example example = new Example(Share.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andNotEqualTo("auditStatus", "NOT_YET");
+        List<Share> shareList = this.shareMapper.selectByExample(example);
         return new PageInfo<>(shareList);
     }
 

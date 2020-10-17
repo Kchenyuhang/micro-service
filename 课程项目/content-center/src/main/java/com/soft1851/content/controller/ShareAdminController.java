@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Author yhChen
  * @Description
@@ -25,5 +27,19 @@ public class ShareAdminController {
     @ApiOperation(value = "审核接口", notes = "审核接口")
     public Share audit(@PathVariable Integer id, @RequestBody ShareAuditDTO shareAuditDTO) {
         return shareService.auditById(id, shareAuditDTO);
+    }
+
+    @GetMapping(value = "/to-audit")
+    @ApiOperation(value = "查询待审核的投稿", notes = "查询待审核的投稿")
+    public List<Share> findShareNotYet(@RequestParam(required = false, defaultValue = "1") Integer pageNo,
+                                       @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+        return shareService.findShareNotYet(pageNo, pageSize).getList();
+    }
+
+    @GetMapping(value = "/have-audit")
+    @ApiOperation(value = "查询已审核的投稿", notes = "查询已审核的投稿")
+    public List<Share> findShareAudit(@RequestParam(required = false, defaultValue = "1") Integer pageNo,
+                                      @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+        return shareService.findShareAudit(pageNo, pageSize).getList();
     }
 }

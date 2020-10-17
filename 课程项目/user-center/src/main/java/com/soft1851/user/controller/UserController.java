@@ -39,14 +39,13 @@ public class UserController {
         return this.userService.getUserById(id);
     }
 
-//    @GetMapping(value = "/me")
-//    public User query(@RequestBody User user) {
-//        return this.userService.getUserByUserDto(user);
-//    }
+    @GetMapping(value = "/me")
+    public ResponseDTO query(@RequestParam Integer userId) {
+        return this.userService.getUserById(userId);
+    }
 
     @PostMapping(value = "/login")
     public LoginRespDTO getToken(@RequestBody LoginDTO loginDTO) throws WxErrorException {
-
         String openId;
         //微信小程序登录，需要根据code请求openId
         if (loginDTO.getLoginCode() != null) {
@@ -91,13 +90,17 @@ public class UserController {
                         .token(token)
                         .expirationTime(jwtOperator.getExpirationTime().getTime())
                         .build())
+                .roles(user.getRoles())
                 .isUserSignIn(isUserSinIn)
                 .build();
     }
 
-    @PostMapping(value = "/bonus-logs")
-    public ResponseDTO getUserBonusLog(@RequestBody UserDTO userDTO) {
-        return this.userService.getLog(userDTO);
+    @GetMapping(value = "/bonus-logs")
+    public List<BonusEventLog> getUserBonusLog(
+            @RequestParam Integer userId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNo,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+        return this.userService.getLog(pageNo,pageSize,userId).getList();
     }
 
     @PutMapping(value = "/add-bonus")
