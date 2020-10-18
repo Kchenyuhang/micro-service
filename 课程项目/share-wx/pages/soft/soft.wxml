@@ -1,0 +1,41 @@
+<!--pages/soft/soft.wxml-->
+<view class="card flex-row center"  wx:for="{{dataList.data}}" wx:for-item="course" wx:key="index">
+  <view class="card-left">
+    <image src="{{course.course.cover}}"/>
+      
+  <!-- 判断是否结束 -->
+  <view class="isEnables" wx:if="{{course.course.isEnabled === 1}}">
+   <text>已结束</text>
+  </view>
+  </view>
+	
+  <view class="card-right center flex-colum ">
+    <view class="right-top flex-row ">
+      <view class="right-name">
+        <text style="font-size:14px;white-space:nowrap">{{course.course.name}}</text>
+        <view class="right-name-bottom">
+          <text>{{course.userName}}</text>
+          <text style="color:#999; margin-left:10px">软件1851</text>
+        </view>
+      </view>
+      <view class="back-image">
+        <image src="https://student-manage-ll.oss-cn-beijing.aliyuncs.com/micro-service/icon_fanhui.png" />
+      </view>
+    </view>
+    <view class="right-bottom space-around">
+      <view class="right-bottom-item flex-row center">
+        <image src="https://student-manage-ll.oss-cn-beijing.aliyuncs.com/micro-service/qiandao.png"></image>
+        <text>签到</text>
+      </view>
+      <view class="right-bottom-item flex-row center">
+        <image src="https://student-manage-ll.oss-cn-beijing.aliyuncs.com/micro-service/jushou.png"></image>
+       <text>  举手</text>
+      </view>
+      <view class="right-bottom-item flex-row center">
+        <image src="https://student-manage-ll.oss-cn-beijing.aliyuncs.com/micro-service/xiaoxi.png"></image>
+        <text>抢答</text>
+      </view>
+    </view>
+  </view>
+
+</view>
