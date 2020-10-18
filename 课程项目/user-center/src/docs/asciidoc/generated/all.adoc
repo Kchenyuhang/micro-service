@@ -1,0 +1,458 @@
+= share-app Swagger文档
+
+
+[[_overview]]
+== Overview
+github地址：https://github.com/Kchenyuhang/micro-service
+
+
+=== Version information
+[%hardbreaks]
+__Version__ : API V1.0
+
+
+=== Contact information
+[%hardbreaks]
+__Contact__ : 陈宇航
+__Contact Email__ : kchenyuhang@gmail.com
+
+
+=== License information
+[%hardbreaks]
+__License__ : Apache
+__License URL__ : http://www.apache.org/
+__Terms of service__ : Terms of service
+
+
+=== URI scheme
+[%hardbreaks]
+__Host__ : localhost:8085
+__BasePath__ : /
+
+
+=== Tags
+
+* 用户中心接口 : User Controller
+
+
+
+
+[[_paths]]
+== Resources
+
+[[_667e357bc56aa0a2982f8d348d5199ee]]
+=== 用户中心接口
+User Controller
+
+
+[[_addbonususingput]]
+==== 添加用户积分
+....
+PUT /users/add-bonus
+....
+
+
+===== Description
+添加用户积分
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Body**|**userAddBonusDTO** +
+__required__|userAddBonusDTO|<<_e0d223ea89db7fe0be24d21d41b6c950,用户添加积分传参DTO>>
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_c2d667b8a3f2d3260c2fffc9b5454834,用户实体类>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Consumes
+
+* `application/json`
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_getuserbonuslogusingget]]
+==== 查询用户积分日志
+....
+GET /users/bonus-logs
+....
+
+
+===== Description
+查询用户积分日志
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|**Query**|**pageNo** +
+__optional__|pageNo|integer (int32)|`1`
+|**Query**|**pageSize** +
+__optional__|pageSize|integer (int32)|`5`
+|**Query**|**userId** +
+__required__|userId|integer (int32)|
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_8ad76cac553eeb3082f2288a49051195,积分日志实体类>> > array
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_gettokenusingpost]]
+==== 登录接口
+....
+POST /users/login
+....
+
+
+===== Description
+登录接口
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Body**|**loginDTO** +
+__required__|loginDTO|<<_d5de3d1bce5e912f28328ed71d52f69c,登录请求传参DTO>>
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_8b7a026b45f82744c8d128906b6a0f50,登录返回信息DTO>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Consumes
+
+* `application/json`
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_queryusingget]]
+==== 查询登录用户个人详情
+....
+GET /users/me
+....
+
+
+===== Description
+查询登录用户个人详情
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**userId** +
+__required__|userId|integer (int32)
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_67118b91ea5d88a36f7f02e53da4e4ed,同一封装请求返回信息DTO>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_usersignusingput]]
+==== 用户签到
+....
+PUT /users/sign
+....
+
+
+===== Description
+用户签到
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Body**|**userSignInDTO** +
+__required__|userSignInDTO|<<_f062f95a38500648ad43a97570382ef1,用户签到请求传参DTO>>
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_67118b91ea5d88a36f7f02e53da4e4ed,同一封装请求返回信息DTO>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Consumes
+
+* `application/json`
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_getbyidusingget]]
+==== 查询指定id的用户详情
+....
+GET /users/{id}
+....
+
+
+===== Description
+查询指定id的用户详情
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Path**|**id** +
+__required__|id|integer (int32)
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_67118b91ea5d88a36f7f02e53da4e4ed,同一封装请求返回信息DTO>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+
+
+[[_definitions]]
+== Definitions
+
+[[_jwttokenrespdto]]
+=== JwtTokenRespDTO
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**expirationTime** +
+__optional__|integer (int64)
+|**token** +
+__optional__|string
+|===
+
+
+[[_67118b91ea5d88a36f7f02e53da4e4ed]]
+=== 同一封装请求返回信息DTO
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**code** +
+__optional__|string
+|**data** +
+__optional__|object
+|**msg** +
+__optional__|string
+|**succ** +
+__optional__|boolean
+|**ts** +
+__optional__|integer (int64)
+|===
+
+
+[[_c2d667b8a3f2d3260c2fffc9b5454834]]
+=== 用户实体类
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|**avatarUrl** +
+__optional__|头像地址|string
+|**bonus** +
+__optional__|积分|integer (int32)
+|**createTime** +
+__optional__|创建时间|string (date-time)
+|**id** +
+__optional__|主键id|integer (int32)
+|**roles** +
+__optional__|角色|string
+|**updateTime** +
+__optional__|更新时间|string (date-time)
+|**wxId** +
+__optional__|微信Id|string
+|**wxNickname** +
+__optional__|微信昵称|string
+|===
+
+
+[[_e0d223ea89db7fe0be24d21d41b6c950]]
+=== 用户添加积分传参DTO
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**bonus** +
+__optional__|integer (int32)
+|**userId** +
+__optional__|integer (int32)
+|===
+
+
+[[_f062f95a38500648ad43a97570382ef1]]
+=== 用户签到请求传参DTO
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**userId** +
+__optional__|integer (int32)
+|===
+
+
+[[_d5de3d1bce5e912f28328ed71d52f69c]]
+=== 登录请求传参DTO
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**avatarUrl** +
+__optional__|string
+|**loginCode** +
+__optional__|string
+|**openId** +
+__optional__|string
+|**wxNickname** +
+__optional__|string
+|===
+
+
+[[_8b7a026b45f82744c8d128906b6a0f50]]
+=== 登录返回信息DTO
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**isUserSignIn** +
+__optional__|integer (int32)
+|**roles** +
+__optional__|string
+|**token** +
+__optional__|<<_jwttokenrespdto,JwtTokenRespDTO>>
+|**user** +
+__optional__|<<_a40941ae80779257e6b1cd2531b2b13b,登录返回用户信息DTO>>
+|===
+
+
+[[_a40941ae80779257e6b1cd2531b2b13b]]
+=== 登录返回用户信息DTO
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**avatarUrl** +
+__optional__|string
+|**bonus** +
+__optional__|integer (int32)
+|**id** +
+__optional__|integer (int32)
+|**wxNickname** +
+__optional__|string
+|===
+
+
+[[_8ad76cac553eeb3082f2288a49051195]]
+=== 积分日志实体类
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|**createTime** +
+__optional__|创建时间|string (date-time)
+|**description** +
+__optional__|描述|string
+|**event** +
+__optional__|事件|string
+|**id** +
+__optional__|主键id|integer (int32)
+|**userId** +
+__optional__|用户id|integer (int32)
+|**value** +
+__optional__|分值|integer (int32)
+|===
+
+
+
+
+

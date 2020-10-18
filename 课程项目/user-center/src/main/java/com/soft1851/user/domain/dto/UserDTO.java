@@ -1,5 +1,6 @@
 package com.soft1851.user.domain.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("接收用户中心发送的User信息DTO")
 public class UserDTO {
     /**
      * Id

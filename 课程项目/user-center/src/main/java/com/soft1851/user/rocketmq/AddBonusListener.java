@@ -5,6 +5,7 @@ import com.soft1851.user.dao.UserMapper;
 import com.soft1851.user.domain.dto.UserAddBonusMsgDTO;
 import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
+import io.swagger.annotations.ApiModel;
 import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -21,6 +22,7 @@ import java.util.Date;
 @Service
 @RocketMQMessageListener(consumerGroup = "consumer", topic = "add-bonus")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@ApiModel("接收rocketMQ发送的添加用户积分消息，执行添加积分的方法")
 public class AddBonusListener implements RocketMQListener<UserAddBonusMsgDTO> {
     private final UserMapper userMapper;
     private final BonusEventLogMapper bonusEventLogMapper;

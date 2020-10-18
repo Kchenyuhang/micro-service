@@ -1,5 +1,6 @@
 package com.soft1851.user.util;
 
+import io.swagger.annotations.ApiModel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
@@ -10,10 +11,11 @@ import java.util.Date;
 
 /**
  * @Author yhChen
- * @Description 时间格式化工具
+ * @Description 时间判断工具类
  * @Date 2020/10/16
  */
 @Slf4j
+@ApiModel("签到时间判断工具类")
 public class DateUtil {
     public static int checkAllotSign(Date date) {
         int result = 0;

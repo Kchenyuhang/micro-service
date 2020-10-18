@@ -20,8 +20,8 @@ class UserMapperTest {
 
     @Test
     void findById() {
-        User user = User.builder()
-                .id(1).build();
-        System.out.println(userMapper.selectOne(user));
+//        User user = User.builder()
+//                .id(1).build();
+//        System.out.println(userMapper.selectOne(user));
     }
 }

@@ -5,6 +5,7 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.soft1851.content.domain.dto.UserDTO;
 import com.soft1851.content.feignclient.TestBaiduFeignClient;
 import com.soft1851.content.feignclient.TestUserCenterFeignClient;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ import javax.ws.rs.GET;
 @RestController
 @Slf4j
 @RequestMapping(value = "/test")
+@Api(tags = "测试接口", value = "提供测试相关的Rest API")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestController {
 

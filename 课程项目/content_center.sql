@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 29/09/2020 18:35:59
+ Date: 18/10/2020 19:13:51
 */
 
 SET NAMES utf8mb4;
@@ -28,13 +28,19 @@ CREATE TABLE `mid_user_share`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_mid_user_share_share1_idx`(`share_id`) USING BTREE,
   INDEX `fk_mid_user_share_user1_idx`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户-分享中间表【描述用户购买的分享】' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户-分享中间表【描述用户购买的分享】' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of mid_user_share
 -- ----------------------------
 INSERT INTO `mid_user_share` VALUES (1, 1, 1);
-INSERT INTO `mid_user_share` VALUES (2, 1, 2);
+INSERT INTO `mid_user_share` VALUES (2, 4, 1);
+INSERT INTO `mid_user_share` VALUES (3, 3, 1);
+INSERT INTO `mid_user_share` VALUES (4, 2, 2);
+INSERT INTO `mid_user_share` VALUES (5, 2, 1);
+INSERT INTO `mid_user_share` VALUES (6, 12, 1);
+INSERT INTO `mid_user_share` VALUES (7, 8, 1);
+INSERT INTO `mid_user_share` VALUES (8, 13, 1);
 
 -- ----------------------------
 -- Table structure for notice
@@ -46,13 +52,15 @@ CREATE TABLE `notice`  (
   `show_flag` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否显示 0:否 1:是',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
 INSERT INTO `notice` VALUES (1, 'Java学习', 0, '2020-09-29 15:20:52');
 INSERT INTO `notice` VALUES (2, 'Python学习', 0, '2020-09-29 15:21:05');
+INSERT INTO `notice` VALUES (3, '时间简史', 0, '2020-10-05 09:45:49');
+INSERT INTO `notice` VALUES (4, '这还是一个半成品~~！', 1, '2020-10-17 16:25:28');
 
 -- ----------------------------
 -- Table structure for rocketmq_transaction_log
@@ -86,12 +94,27 @@ CREATE TABLE `share`  (
   `audit_status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '审核状态 NOT_YET: 待审核 PASSED:审核通过 REJECTED:审核不通过',
   `reason` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '审核不通过原因',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分享表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分享表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of share
 -- ----------------------------
-INSERT INTO `share` VALUES (1, 3, '面向对象编程', '2020-09-29 15:24:34', '2020-09-29 15:24:36', 0, '李四', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s26097721.jpg', '《JavaScript面向对象编程指南》内容包括：JavaScript作为一门浏览器语言的核心思想；面向对象编程的基础知识及其在JavaScript中的运用；数据类型、操作符以及流程控制语句；函数、闭包、对象和原型等概念，以代码重用为目的的继承模式；BOM、DOM、浏览器事件、AJAX和JSON；如何实现JavaScript中缺失的面向对象特性，如对象的私有成员与私有方法；如何应用适当的编程模式，发挥JavaScript语言特有的优势；如何应用设计模式解决常见问题等。', 65, 'https://book.douban.com/subject/21372235/', 0, 0, 'PASSED', '');
-INSERT INTO `share` VALUES (2, 2, 'Python编程 : 从入门到实践', '2020-09-29 15:40:25', '2020-09-29 15:40:28', 0, '[美] 埃里克·马瑟斯', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s28891775.jpg', '本书是一本针对所有层次的Python 读者而作的Python 入门书。全书分两部分：第一部分介绍用Python 编程所必须了解的基本概念，包括matplotlib、NumPy 和Pygal 等强大的Python 库和工具介绍，以及列表、字典、if 语句、类、文件与异常、代码测试等内容；第二部分将理论付诸实践，讲解如何开发三个项目，包括简单的Python 2D 游戏开发如何利用数据生成交互式的信息图，以及创建和定制简单的Web 应用，并帮读者解决常见编程问题和困惑。', 89, 'https://book.douban.com/subject/26829016/', 0, 0, 'PASSED', '');
+INSERT INTO `share` VALUES (1, 3, 'JavaScript面向对象编程指南', '2020-09-29 15:24:34', '2020-09-29 15:24:36', 1, '蔡一帆', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s26097721.jpg', '测试', 10, '虚假连接', 0, 1, 'PASS', '测试方法');
+INSERT INTO `share` VALUES (2, 2, 'Python编程 : 从入门到实践', '2020-09-29 15:40:25', '2020-09-29 15:40:28', 1, '[美] 埃里克·马瑟斯', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s28891775.jpg', '本书是一本针对所有层次的Python 读者而作的Python 入门书。', 89, 'https://book.douban.com/subject/26829016/', 0, 1, 'PASS', 'good');
+INSERT INTO `share` VALUES (3, 1, '代码大全（第2版）', '2020-10-05 10:19:19', '2020-10-05 10:19:22', 1, '[美] 史蒂夫·迈克康奈尔', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s1495029.jpg', '第2版的《代码大全》是著名IT畅销书作者史蒂夫·迈克康奈尔11年前的经典著作的全新演绎：第2版不是第一版的简单修订增补，而是完全进行了重写；增加了很多与时俱进的内容。', 128, 'https://book.douban.com/subject/1477390/', 0, 1, 'PASS', 'good-1');
+INSERT INTO `share` VALUES (4, 1, '测试新增', '2020-10-07 09:35:40', '2020-10-07 09:35:40', 1, '陈宇航', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s1495029.jpg', '测试', 10, 'https://baidu.com', 0, 1, 'PASS', '很赞');
+INSERT INTO `share` VALUES (8, 1, '测试新增', '2020-10-07 09:35:40', '2020-10-07 09:35:40', 1, '陈宇航', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s1495029.jpg', '测试', 10, 'https://baidu.com', 0, 1, 'PASS', '很赞');
+INSERT INTO `share` VALUES (9, 1, '测试新增', '2020-10-07 09:35:40', '2020-10-07 09:35:40', 1, '陈宇航', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/s28891775.jpg', '测试', 10, 'https://baidu.com', 0, 1, 'PASS', '很赞');
+INSERT INTO `share` VALUES (10, 1, '测试新增', '2020-10-07 09:35:40', '2020-10-07 09:35:40', 1, '陈宇航', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', '测试', 10, 'https://baidu.com', 0, 1, 'PASS', '很赞');
+INSERT INTO `share` VALUES (11, 1, '测试新增', '2020-10-07 09:35:40', '2020-10-07 09:35:40', 1, '陈宇航', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', '测试', 10, 'https://baidu.com', 0, 0, 'REJECTED', '很赞');
+INSERT INTO `share` VALUES (12, 1, 'Java', '2020-10-17 19:21:47', '2020-10-17 19:21:47', 0, '侯粤嘉', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'summary', 123, 'aa', 0, 1, 'PASS', 'nice');
+INSERT INTO `share` VALUES (13, 1, 'Python', '2020-10-17 19:27:08', '2020-10-17 19:27:08', 0, '杨苏祥', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'bestmatch', 110, 'bbb', 0, 1, 'PASS', '不错呦');
+INSERT INTO `share` VALUES (14, 1, 'MySQL', '2020-10-17 19:30:47', '2020-10-17 19:30:47', 0, '郭瑞昌', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'that\'s very good', 100, 'ccc', 0, 1, 'PASS', 'good');
+INSERT INTO `share` VALUES (15, 1, 'Linux', '2020-10-17 19:38:02', '2020-10-17 19:38:02', 0, '杨晶', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'interesting', 100, 'ggg', 0, 1, 'PASS', 'sss');
+INSERT INTO `share` VALUES (16, 1, 'HTML5', '2020-10-17 19:44:29', '2020-10-17 19:44:29', 0, '许源', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'good', 100, 'xxx', 0, 0, 'REJECTED', 'aaa');
+INSERT INTO `share` VALUES (17, 1, 'Microservice', '2020-10-17 19:46:54', '2020-10-17 19:46:54', 0, '田震', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'I like it very much', 90, 'ttt', 0, 0, 'NOT_YET', '待审核');
+INSERT INTO `share` VALUES (18, 1, 'Flutter', '2020-10-17 19:50:20', '2020-10-17 19:50:20', 0, '王锋', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'new technology', 120, 'www', 0, 0, 'NOT_YET', '待审核');
+INSERT INTO `share` VALUES (19, 1, 'xxx', '2020-10-18 13:24:27', '2020-10-18 13:24:27', 0, 'cyh', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'ceshi', 10, 'aaa', 0, 0, 'NOT_YET', '待审核');
+INSERT INTO `share` VALUES (20, 1, '演示', '2020-10-18 17:52:30', '2020-10-18 17:52:30', 0, '陈宇航', 'https://kxingchen.oss-cn-shanghai.aliyuncs.com/develop/team.jpg', 'summary', 10, 'aaa', 0, 0, 'NOT_YET', '待审核');
 
 SET FOREIGN_KEY_CHECKS = 1;

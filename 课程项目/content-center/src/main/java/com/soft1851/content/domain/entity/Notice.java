@@ -24,7 +24,7 @@ import java.util.Date;
 @Builder
 @Data
 @Table(name = "notice")
-@ApiModel("公告")
+@ApiModel("公告表")
 public class Notice {
     @Id
     @GeneratedValue(generator = "JDBC")

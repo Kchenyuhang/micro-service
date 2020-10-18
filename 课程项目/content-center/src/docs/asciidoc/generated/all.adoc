@@ -34,6 +34,8 @@ __BasePath__ : /
 
 * 公告接口 : Notice Controller
 * 分享接口 : Share Controller
+* 审核接口 : Share Admin Controller
+* 测试接口 : Test Controller
 
 
 
@@ -49,7 +51,7 @@ Notice Controller
 [[_gettopnoticeusingget]]
 ==== 查询最新一条公告
 ....
-GET /notice/one
+GET /notices/latest
 ....
 
 
@@ -62,7 +64,7 @@ GET /notice/one
 [options="header", cols=".^2,.^14,.^4"]
 |===
 |HTTP Code|Description|Schema
-|**200**|OK|<<_fa86f1a57d6f758a93cb33b59c015654,公告>>
+|**200**|OK|<<_e8c2e5c084ad30db6a9693393978cd2f,公告表>>
 |**401**|Unauthorized|No Content
 |**403**|Forbidden|No Content
 |**404**|Not Found|No Content
@@ -79,10 +81,272 @@ GET /notice/one
 Share Controller
 
 
+[[_insertshareusingpost]]
+==== 投稿接口
+....
+POST /shares/contribute
+....
+
+
+===== Description
+用户投稿
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Body**|**shareRequestDTO** +
+__required__|shareRequestDTO|<<_0c3348bd7c57a4f2d37455c6ae4f60fc,投稿传参DTO>>
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|integer (int32)
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Consumes
+
+* `application/json`
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_updateshareusingput]]
+==== 编辑投稿
+....
+PUT /shares/contribute/{id}
+....
+
+
+===== Description
+编辑投稿
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Path**|**id** +
+__required__|id|integer (int32)
+|**Body**|**shareRequestDTO** +
+__required__|shareRequestDTO|<<_0c3348bd7c57a4f2d37455c6ae4f60fc,投稿传参DTO>>
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_c31f48f84ef207e66a03c015a7243b43,分享>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Consumes
+
+* `application/json`
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_exchangeusingpost]]
+==== 积分兑换
+....
+POST /shares/exchange
+....
+
+
+===== Description
+积分兑换
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Body**|**exchangeDTO** +
+__required__|exchangeDTO|<<_76a10d87c023462c16fcdbb3606be4a9,兑换传参DTO>>
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_c31f48f84ef207e66a03c015a7243b43,分享>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Consumes
+
+* `application/json`
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_findmyexchangeusingget]]
+==== 我的兑换
+....
+GET /shares/my
+....
+
+
+===== Description
+我的兑换
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|**Query**|**pageNo** +
+__optional__|pageNo|integer (int32)|`1`
+|**Query**|**pageSize** +
+__optional__|pageSize|integer (int32)|`5`
+|**Query**|**userId** +
+__required__|userId|integer (int32)|
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_c31f48f84ef207e66a03c015a7243b43,分享>> > array
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_findmycontributionusingget]]
+==== 我的投稿
+....
+GET /shares/my/contributions
+....
+
+
+===== Description
+我的投稿
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|**Query**|**pageNo** +
+__optional__|pageNo|integer (int32)|`1`
+|**Query**|**pageSize** +
+__optional__|pageSize|integer (int32)|`5`
+|**Query**|**userId** +
+__required__|userId|integer (int32)|
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_c31f48f84ef207e66a03c015a7243b43,分享>> > array
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_queryusingget]]
+==== 分享列表
+....
+GET /shares/query
+....
+
+
+===== Description
+分享列表
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|**Header**|**X-Token** +
+__optional__|X-Token|string|
+|**Query**|**pageNo** +
+__optional__|pageNo|integer (int32)|`1`
+|**Query**|**pageSize** +
+__optional__|pageSize|integer (int32)|`5`
+|**Query**|**title** +
+__optional__|title|string|
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_c31f48f84ef207e66a03c015a7243b43,分享>> > array
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
 [[_getonebyidusingget]]
 ==== 查询指定id的分享详情
 ....
-GET /share/one/{id}
+GET /shares/{id}
 ....
 
 
@@ -117,31 +381,66 @@ __required__|id|integer (int32)
 * `*/*`
 
 
-[[_queryusingget]]
-==== 分享列表
+[[_a2d9ce34f0e8e13ec795f30d3a8212de]]
+=== 审核接口
+Share Admin Controller
+
+
+[[_auditusingput]]
+==== 审核接口
 ....
-GET /share/query
+PUT /admin/shares/audit/{id}
 ....
 
 
 ===== Description
-分享列表
+审核接口
 
 
 ===== Parameters
 
-[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+[options="header", cols=".^2,.^3,.^9,.^4"]
 |===
-|Type|Name|Description|Schema|Default
-|**Query**|**pageNo** +
-__optional__|pageNo|integer (int32)|`1`
-|**Query**|**pageSize** +
-__optional__|pageSize|integer (int32)|`10`
-|**Query**|**title** +
-__optional__|title|string|
-|**Query**|**userId** +
-__optional__|userId|integer (int32)|
+|Type|Name|Description|Schema
+|**Path**|**id** +
+__required__|id|integer (int32)
+|**Body**|**shareAuditDTO** +
+__required__|shareAuditDTO|<<_0c78cee3c8e6836f670a7f6fc8477350,审核传参DTO>>
 |===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_c31f48f84ef207e66a03c015a7243b43,分享>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Consumes
+
+* `application/json`
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_findshareauditusingget]]
+==== 查询已审核的投稿
+....
+GET /admin/shares/have-audit
+....
+
+
+===== Description
+查询已审核的投稿
 
 
 ===== Responses
@@ -161,32 +460,115 @@ __optional__|userId|integer (int32)|
 * `*/*`
 
 
-[[_querybyuserdtousingget]]
-==== 多参数查询
+[[_findsharenotyetusingget]]
+==== 查询待审核的投稿
 ....
-GET /share/test-q
+GET /admin/shares/to-audit
 ....
 
 
 ===== Description
-多参数查询
+查询待审核的投稿
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_c31f48f84ef207e66a03c015a7243b43,分享>> > array
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_cba1afa8756152014d0034b3b9dc688b]]
+=== 测试接口
+Test Controller
+
+
+[[_baiduindexusingget]]
+==== baiduIndex
+....
+GET /test/baidu
+....
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|string
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_byresourceusingget]]
+==== byResource
+....
+GET /test/byResource
+....
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|string
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_querybyuserdtousingget]]
+==== queryByUserDto
+....
+GET /test/test-q
+....
 
 
 ===== Parameters
 
-[options="header", cols=".^2,.^3,.^4"]
+[options="header", cols=".^2,.^3,.^9,.^4"]
 |===
-|Type|Name|Schema
+|Type|Name|Description|Schema
 |**Query**|**avatarUrl** +
-__optional__|string
+__optional__|头像地址|string
+|**Query**|**bonus** +
+__optional__|积分|integer (int32)
+|**Query**|**createTime** +
+__optional__|用户创建时间|string (date-time)
+|**Query**|**id** +
+__optional__|用户id|integer (int32)
 |**Query**|**roles** +
-__optional__|string
-|**Query**|**userId** +
-__optional__|integer (int32)
-|**Query**|**userName** +
-__optional__|string
+__optional__|角色|string
+|**Query**|**updateTime** +
+__optional__|用户信息更新时间|string (date-time)
 |**Query**|**wxId** +
-__optional__|string
+__optional__|微信Id|string
+|**Query**|**wxNickname** +
+__optional__|微信昵称|string
 |===
 
 
@@ -195,7 +577,41 @@ __optional__|string
 [options="header", cols=".^2,.^14,.^4"]
 |===
 |HTTP Code|Description|Schema
-|**200**|OK|<<_userdto,UserDTO>>
+|**200**|OK|<<_e6c2ccbbe253facd743bd8b54d9fcd64,接收用户中心发送的User信息DTO>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+===== Produces
+
+* `*/*`
+
+
+[[_getuserusingget]]
+==== getUser
+....
+GET /test/user/{id}
+....
+
+
+===== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Path**|**id** +
+__required__|id|integer (int32)
+|===
+
+
+===== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_8517175d4389aafb9cbba105ba26d07a,ListenableFuture«ResponseEntity«string»»>>
 |**401**|Unauthorized|No Content
 |**403**|Forbidden|No Content
 |**404**|Not Found|No Content
@@ -212,27 +628,34 @@ __optional__|string
 [[_definitions]]
 == Definitions
 
-[[_userdto]]
-=== UserDTO
+[[_8517175d4389aafb9cbba105ba26d07a]]
+=== ListenableFuture«ResponseEntity«string»»
 
 [options="header", cols=".^3,.^4"]
 |===
 |Name|Schema
-|**avatarUrl** +
-__optional__|string
-|**roles** +
-__optional__|string
-|**userId** +
-__optional__|integer (int32)
-|**userName** +
-__optional__|string
-|**wxId** +
-__optional__|string
+|**cancelled** +
+__optional__|boolean
+|**done** +
+__optional__|boolean
 |===
 
 
-[[_fa86f1a57d6f758a93cb33b59c015654]]
-=== 公告
+[[_76a10d87c023462c16fcdbb3606be4a9]]
+=== 兑换传参DTO
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|**shareId** +
+__optional__|被兑换的分享id|integer (int32)
+|**userId** +
+__optional__|兑换用户id|integer (int32)
+|===
+
+
+[[_e8c2e5c084ad30db6a9693393978cd2f]]
+=== 公告表
 
 [options="header", cols=".^3,.^11,.^4"]
 |===
@@ -297,6 +720,67 @@ __optional__|分享人id|integer (int32)
 __optional__|分享资源信息|<<_c31f48f84ef207e66a03c015a7243b43,分享>>
 |**wxNickName** +
 __optional__|发布人昵称|string
+|===
+
+
+[[_0c78cee3c8e6836f670a7f6fc8477350]]
+=== 审核传参DTO
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|**auditStatusEnum** +
+__optional__|审核结果（PASS、REJECTED、NOT_YET）|enum (NOT_YET, PASS, REJECTED)
+|**reason** +
+__optional__|理由|string
+|===
+
+
+[[_0c3348bd7c57a4f2d37455c6ae4f60fc]]
+=== 投稿传参DTO
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|**author** +
+__optional__|作者|string
+|**downloadUrl** +
+__optional__|下载地址|string
+|**isOriginal** +
+__optional__|是否原创：false否，true是|boolean
+|**price** +
+__optional__|兑换所需积分|integer (int32)
+|**summary** +
+__optional__|描述|string
+|**title** +
+__optional__|标题|string
+|**userId** +
+__optional__|投稿用户id|integer (int32)
+|===
+
+
+[[_e6c2ccbbe253facd743bd8b54d9fcd64]]
+=== 接收用户中心发送的User信息DTO
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|**avatarUrl** +
+__optional__|头像地址|string
+|**bonus** +
+__optional__|积分|integer (int32)
+|**createTime** +
+__optional__|用户创建时间|string (date-time)
+|**id** +
+__optional__|用户id|integer (int32)
+|**roles** +
+__optional__|角色|string
+|**updateTime** +
+__optional__|用户信息更新时间|string (date-time)
+|**wxId** +
+__optional__|微信Id|string
+|**wxNickname** +
+__optional__|微信昵称|string
 |===
 
 

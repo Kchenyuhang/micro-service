@@ -1,5 +1,6 @@
 package com.soft1851.user.domain.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("用户添加积分传参DTO")
 public class UserAddBonusDTO {
     private Integer userId;
     /**

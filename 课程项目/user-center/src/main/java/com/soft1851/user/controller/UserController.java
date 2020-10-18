@@ -9,6 +9,8 @@ import com.soft1851.user.domain.entity.BonusEventLog;
 import com.soft1851.user.domain.entity.User;
 import com.soft1851.user.service.UserService;
 import com.soft1851.user.util.JwtOperator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -27,6 +29,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping(value = "/users")
+@Api(tags = "用户中心接口", value = "提供用户中心相关的Rest API")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
     private final UserMapper userMapper;
@@ -35,16 +38,19 @@ public class UserController {
     private final JwtOperator jwtOperator;
 
     @GetMapping(value = "/{id}")
+    @ApiOperation(value = "查询指定id的用户详情", notes = "查询指定id的用户详情")
     public ResponseDTO getById(@PathVariable Integer id) {
         return this.userService.getUserById(id);
     }
 
     @GetMapping(value = "/me")
+    @ApiOperation(value = "查询登录用户个人详情", notes = "查询登录用户个人详情")
     public ResponseDTO query(@RequestParam Integer userId) {
         return this.userService.getUserById(userId);
     }
 
     @PostMapping(value = "/login")
+    @ApiOperation(value = "登录接口", notes = "登录接口")
     public LoginRespDTO getToken(@RequestBody LoginDTO loginDTO) throws WxErrorException {
         String openId;
         //微信小程序登录，需要根据code请求openId
@@ -96,6 +102,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/bonus-logs")
+    @ApiOperation(value = "查询用户积分日志", notes = "查询用户积分日志")
     public List<BonusEventLog> getUserBonusLog(
             @RequestParam Integer userId,
             @RequestParam(required = false, defaultValue = "1") Integer pageNo,
@@ -104,6 +111,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/add-bonus")
+    @ApiOperation(value = "添加用户积分", notes = "添加用户积分")
     public User addBonus(@RequestBody UserAddBonusDTO userAddBonusDTO) {
         log.info("增减积分接口被请求了...");
         Integer userId = userAddBonusDTO.getUserId();
@@ -119,6 +127,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/sign")
+    @ApiOperation(value = "用户签到", notes = "用户签到")
     public ResponseDTO userSign(@RequestBody UserSignInDTO userSignInDTO) {
         return this.userService.signIn(userSignInDTO);
     }
