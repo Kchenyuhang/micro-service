@@ -90,18 +90,14 @@ public interface ShareService {
     /**
      * 查询待审核的投稿
      *
-     * @param pageNo
-     * @param pageSize
      * @return
      */
-    PageInfo<Share> findShareNotYet(Integer pageNo, Integer pageSize);
+    PageInfo<Share> findShareNotYet();
 
     /**
      * 查询已审核的投稿
      *
-     * @param pageNo
-     * @param pageSize
      * @return
      */
-    PageInfo<Share> findShareAudit(Integer pageNo, Integer pageSize);
+    PageInfo<Share> findShareAudit();
 }

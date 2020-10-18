@@ -158,6 +158,11 @@ public class ShareServiceImpl implements ShareService {
         //这个app主要流程是审核，所以不需要等更新积分的结果返回，可以将增加积分改为异步
         share.setAuditStatus(shareAuditDTO.getAuditStatusEnum().toString());
         share.setReason(shareAuditDTO.getReason());
+        if ("PASS".equals(shareAuditDTO.getAuditStatusEnum().toString())) {
+            share.setShowFlag(true);
+        } else {
+            share.setShowFlag(false);
+        }
         this.shareMapper.updateByPrimaryKey(share);
         //3,如果是PASS,那么发送消息给rocketmq，让用户中心去消费，并为发布人添加积分
         if (AuditStatusEnum.PASS.equals(shareAuditDTO.getAuditStatusEnum())) {
@@ -278,8 +283,8 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    public PageInfo<Share> findShareNotYet(Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
+    public PageInfo<Share> findShareNotYet() {
+//        PageHelper.startPage(pageNo, pageSize);
         Example example = new Example(Share.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("auditStatus", "NOT_YET");
@@ -288,8 +293,8 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    public PageInfo<Share> findShareAudit(Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
+    public PageInfo<Share> findShareAudit() {
+//        PageHelper.startPage(pageNo, pageSize);
         Example example = new Example(Share.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andNotEqualTo("auditStatus", "NOT_YET");
